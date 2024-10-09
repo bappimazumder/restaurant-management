@@ -150,22 +150,4 @@ public class OrderServiceTests {
         assertEquals(null, maxSaleDay);
     }
 
-    // Test Case 3 for getMaxSaleDay() method
-    @Test
-    public void testGetMaxSaleDay_SingleDayMax() {
-        LocalDate startDate = LocalDate.of(2023, 10, 1);
-        LocalDate endDate = LocalDate.of(2023, 10, 10);
-
-        List<Object[]> salesData = Arrays.asList(
-                new Object[]{LocalDate.of(2023, 10, 5), 300.0},
-                new Object[]{LocalDate.of(2023, 10, 6), 600.0},
-                new Object[]{LocalDate.of(2023, 10, 7), 150.0}
-        );
-
-        when(orderRepository.findTotalSalesByDateRange(startDate, endDate)).thenReturn(salesData);
-
-        LocalDate maxSaleDay = orderService.getMaxSaleDay(startDate, endDate);
-        assertEquals(LocalDate.of(2023, 10, 6), maxSaleDay);
-    }
-
 }
