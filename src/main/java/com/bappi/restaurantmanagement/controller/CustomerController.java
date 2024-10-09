@@ -2,8 +2,10 @@ package com.bappi.restaurantmanagement.controller;
 
 import com.bappi.restaurantmanagement.model.dto.CustomerResponseDto;
 import com.bappi.restaurantmanagement.service.CustomerService;
+import com.bappi.restaurantmanagement.utils.ResponsePayload;
 import com.bappi.restaurantmanagement.utils.ServiceExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,9 +28,9 @@ public class CustomerController {
     }
 
     @GetMapping(value = API_GET_ALL_CUSTOMER)
-    public ResponseEntity<List<CustomerResponseDto>> getAllCustomers() {
-        ServiceExceptionHandler<List<CustomerResponseDto>> dataHandler = service::getAllCustomers;
-        List<CustomerResponseDto> dto = dataHandler.executeHandler();
+    public HttpEntity<ResponsePayload<CustomerResponseDto>> getAllCustomers() {
+        ServiceExceptionHandler<ResponsePayload<CustomerResponseDto>> dataHandler = service::getAllCustomers;
+        ResponsePayload<CustomerResponseDto> dto = dataHandler.executeHandler();
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 

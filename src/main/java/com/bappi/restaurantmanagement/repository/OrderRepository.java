@@ -14,8 +14,8 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByOrderDate(LocalDate orderDate);
     List<Order> findByCustomerId(Long customerId);
-    @Query("SELECT sum(o.amount) FROM Order o WHERE o.orderDate = : orderDate")
-    Double sumAmountByOrderDate(LocalDate orderDate);
+    @Query("SELECT sum(o.amount) FROM Order o WHERE o.orderDate = :orderDate")
+    Double sumAmountByOrderDate(@Param("orderDate") LocalDate orderDate);
 
     @Query("SELECT o.orderDate, SUM(o.amount) FROM Order o WHERE o.orderDate BETWEEN :startDate AND :endDate GROUP BY o.orderDate")
     List<Object[]> findTotalSalesByDateRange(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);

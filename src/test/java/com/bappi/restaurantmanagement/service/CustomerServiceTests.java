@@ -3,6 +3,7 @@ package com.bappi.restaurantmanagement.service;
 import com.bappi.restaurantmanagement.model.dto.CustomerResponseDto;
 import com.bappi.restaurantmanagement.model.entity.Customer;
 import com.bappi.restaurantmanagement.repository.CustomerRepository;
+import com.bappi.restaurantmanagement.utils.ResponsePayload;
 import com.bappi.restaurantmanagement.utils.mapper.CustomerMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,11 +58,13 @@ public class CustomerServiceTests {
         when(repository.findAll()).thenReturn(mockCustomers);
         when(objectMapper.map(mockCustomers)).thenReturn(mockResponseDtos);
 
-        List<CustomerResponseDto> responseDtos = customerService.getAllCustomers();
+        ResponsePayload<CustomerResponseDto> responseDtos = customerService.getAllCustomers();
+        List<CustomerResponseDto> customerList = responseDtos.getDataList();
 
-        assertEquals(2, responseDtos.size());
-        assertEquals("C001", responseDtos.get(0).getCode());
-        assertEquals("C002", responseDtos.get(1).getCode());
+
+        assertEquals(2, customerList.size());
+        assertEquals("C001", customerList.get(0).getCode());
+        assertEquals("C002", customerList.get(1).getCode());
         verify(repository).findAll();
     }
 

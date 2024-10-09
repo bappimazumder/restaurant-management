@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
@@ -17,7 +15,9 @@ public class OrderResponseDto {
 
     private Double amount;
 
-    private LocalDate orderDate;
+    private String orderDate;
 
-    private CustomerResponseDto customer;
+    private String customerCode;
+
+    private String customerName;
 }
