@@ -5,21 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
-public class OrderResponseDto {
-
-    private String code;
-
+public class SaleResponseDto {
     private Double amount;
-
-    private String orderDate;
-
     private String saleDate;
-
-    private String customerCode;
-
-    private String customerName;
 }

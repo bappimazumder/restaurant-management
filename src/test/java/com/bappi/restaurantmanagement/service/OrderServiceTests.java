@@ -1,6 +1,7 @@
 package com.bappi.restaurantmanagement.service;
 
 import com.bappi.restaurantmanagement.model.dto.OrderResponseDto;
+import com.bappi.restaurantmanagement.model.dto.SaleResponseDto;
 import com.bappi.restaurantmanagement.model.entity.Customer;
 import com.bappi.restaurantmanagement.model.entity.Order;
 import com.bappi.restaurantmanagement.repository.OrderRepository;
@@ -15,7 +16,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class OrderServiceTests {
@@ -61,25 +63,33 @@ public class OrderServiceTests {
     @Test
     public void testGetTotalSaleAmount_WithSales() {
         LocalDate today = LocalDate.now();
-        Double expectedTotal = 500.0;
-        when(orderRepository.sumAmountByOrderDate(today)).thenReturn(expectedTotal);
+        SaleResponseDto expectedResponse = new SaleResponseDto(500.0,today.toString());
+        expectedResponse.setAmount(500.0);
+        Double expectedAmount = 500.0;
+        when(orderRepository.sumAmountBySaleDate(today)).thenReturn(expectedAmount);
 
-        Double totalSales = orderService.getTotalSaleAmount();
+        SaleResponseDto actualResponse = orderService.getTodayTotalSaleAmount();
 
-        assertEquals(expectedTotal, totalSales);
+        assertNotNull(actualResponse);
+        assertEquals(expectedResponse.getAmount(), actualResponse.getAmount(), "Expected amount should match");
+        assertEquals(expectedResponse.getSaleDate(), actualResponse.getSaleDate(), "Expected date should match");
+        verify(orderRepository).sumAmountBySaleDate(today);
     }
 
     // Test Case 2 for getTotalSaleAmount() method
     @Test
     public void testGetTotalSaleAmount_NoSales() {
         LocalDate today = LocalDate.now();
-        Double expectedTotal = 0.0;
 
-        when(orderRepository.sumAmountByOrderDate(today)).thenReturn(expectedTotal);
+        SaleResponseDto expectedResponse = new SaleResponseDto();
 
-        Double totalSales = orderService.getTotalSaleAmount();
+        when(orderRepository.sumAmountBySaleDate(today)).thenReturn(null);
 
-        assertEquals(expectedTotal, totalSales);
+        SaleResponseDto actualResponse = orderService.getTodayTotalSaleAmount();
+
+        assertNotNull(actualResponse);
+        assertEquals(expectedResponse.getAmount(), actualResponse.getAmount(), "Expected amount should be null");
+        verify(orderRepository).sumAmountBySaleDate(today);
     }
 
     // Test Case 1 for getOrdersByCustomer() method
@@ -136,20 +146,28 @@ public class OrderServiceTests {
 
         when(orderRepository.findTotalSalesByDateRange(startDate, endDate)).thenReturn(salesData);
 
-        LocalDate maxSaleDay = orderService.getMaxSaleDay(startDate, endDate);
-        assertEquals(LocalDate.of(2024, 10, 6), maxSaleDay);
+        SaleResponseDto actualResponse = orderService.getMaxSaleDay(startDate, endDate);
+
+        assertNotNull(actualResponse);
+        assertEquals(500.0, actualResponse.getAmount(), "Expected max sale amount should be 200.0");
+        assertEquals(LocalDate.of(2024, 10, 6).toString(), actualResponse.getSaleDate(), "Expected sale date should match");
+        verify(orderRepository).findTotalSalesByDateRange(startDate, endDate);
     }
 
     // Test Case 2 for getMaxSaleDay() method
     @Test
     public void testGetMaxSaleDay_NoSales() {
         LocalDate startDate = LocalDate.of(2024, 10, 1);
-        LocalDate endDate = LocalDate.of(2024, 10, 10);
+        LocalDate endDate = LocalDate.of(2024, 10, 9);
+        List<Object[]> salesData = Arrays.asList();
+        when(orderRepository.findTotalSalesByDateRange(startDate, endDate)).thenReturn(salesData);
 
-        when(orderRepository.findTotalSalesByDateRange(startDate, endDate)).thenReturn(Collections.emptyList());
+        SaleResponseDto actualResponse = orderService.getMaxSaleDay(startDate, endDate);
 
-        LocalDate maxSaleDay = orderService.getMaxSaleDay(startDate, endDate);
-        assertEquals(null, maxSaleDay);
+        assertNotNull(actualResponse);
+        assertEquals(0.0, actualResponse.getAmount(), "Expected max sale amount should be 0.0");
+        assertNull(actualResponse.getSaleDate(), "Expected sale date should be null when there are no sales");
+        verify(orderRepository).findTotalSalesByDateRange(startDate, endDate);
     }
 
 }

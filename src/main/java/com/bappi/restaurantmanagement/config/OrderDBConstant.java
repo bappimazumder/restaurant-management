@@ -7,4 +7,5 @@ public class OrderDBConstant {
     public static final String AMOUNT = "AMOUNT";
     public static final String ORDER_DATE = "ORDER_DATE";
     public static final String CUSTOMER_ID = "CUSTOMER_ID";
+    public static final String SALE_DATE = "SALE_DATE";
 }

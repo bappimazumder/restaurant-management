@@ -1,6 +1,7 @@
 package com.bappi.restaurantmanagement.service;
 
 import com.bappi.restaurantmanagement.model.dto.OrderResponseDto;
+import com.bappi.restaurantmanagement.model.dto.SaleResponseDto;
 import com.bappi.restaurantmanagement.model.entity.Order;
 import com.bappi.restaurantmanagement.repository.OrderRepository;
 import com.bappi.restaurantmanagement.utils.ResponsePayload;
@@ -31,8 +32,9 @@ public class OrderService {
                 .dataList(objectMapper.map(orders)).build();
     }
 
-    public Double getTotalSaleAmount() {
-        return repository.sumAmountByOrderDate(LocalDate.now());
+    public SaleResponseDto getTodayTotalSaleAmount() {
+        Double amount = repository.sumAmountBySaleDate(LocalDate.now());
+        return new SaleResponseDto(amount,LocalDate.now().toString());
     }
 
     public ResponsePayload<OrderResponseDto> getOrdersByCustomer(Long customerId) {
@@ -41,24 +43,29 @@ public class OrderService {
                 .dataList(objectMapper.map(orders)).build();
     }
 
-    public LocalDate getMaxSaleDay(LocalDate startDate, LocalDate endDate) {
-
+    public SaleResponseDto getMaxSaleDay(LocalDate startDate, LocalDate endDate) {
+        SaleResponseDto responseDto = new SaleResponseDto();
         List<Object[]> salesData = repository.findTotalSalesByDateRange(startDate, endDate);
 
         LocalDate maxSaleDay = null;
-        double maxSaleAmount = 0;
+        Double maxSaleAmount = 0.0;
 
         for (Object[] data : salesData) {
             LocalDate date = (LocalDate) data[0];
             Double totalAmount = (Double) data[1];
-            System.out.println(date);
+
             if (totalAmount > maxSaleAmount) {
                 maxSaleAmount = totalAmount;
                 maxSaleDay = date;
             }
         }
+        responseDto.setAmount(maxSaleAmount);
 
-        return maxSaleDay;
+        if(maxSaleDay!= null){
+            responseDto.setSaleDate(maxSaleDay.toString());
+        }
+
+        return responseDto;
     }
 
 }

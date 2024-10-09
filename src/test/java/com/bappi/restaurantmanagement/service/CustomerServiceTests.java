@@ -19,12 +19,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class CustomerServiceTests {
-
     @Mock
     private CustomerRepository repository;
     @Mock
     private CustomerMapper objectMapper;
-
     @InjectMocks
     private CustomerService customerService;
     Customer customer1;

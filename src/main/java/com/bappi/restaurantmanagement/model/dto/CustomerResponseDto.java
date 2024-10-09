@@ -8,10 +8,6 @@ import lombok.*;
 @Getter
 @Builder
 public class CustomerResponseDto {
-
     private String code;
-
     private String fullName;
-
-
 }

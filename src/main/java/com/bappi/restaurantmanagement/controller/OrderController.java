@@ -2,6 +2,7 @@ package com.bappi.restaurantmanagement.controller;
 
 
 import com.bappi.restaurantmanagement.model.dto.OrderResponseDto;
+import com.bappi.restaurantmanagement.model.dto.SaleResponseDto;
 import com.bappi.restaurantmanagement.model.entity.Customer;
 import com.bappi.restaurantmanagement.model.entity.Order;
 import com.bappi.restaurantmanagement.service.CustomerService;
@@ -12,6 +13,7 @@ import com.bappi.restaurantmanagement.utils.ResponsePayload;
 import com.bappi.restaurantmanagement.utils.ServiceExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,14 +49,14 @@ public class OrderController {
     }
 
     @GetMapping(value = API_GET_ALL_SALE_TODAY)
-    public HttpEntity<?> getTotalSaleAmount() {
-        ServiceExceptionHandler<Double> dataHandler = service :: getTotalSaleAmount;
-        Double data = dataHandler.executeHandler();
-        return new ResponseEntity<>(data, HttpStatus.OK);
+    public HttpEntity<?> getTodayTotalSaleAmount(){
+        ServiceExceptionHandler<SaleResponseDto> dataHandler = service :: getTodayTotalSaleAmount;
+        SaleResponseDto dto = dataHandler.executeHandler();
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @GetMapping(value=API_GET_ALL_ORDER_BY_CUSTOMER)
-    public HttpEntity<ResponsePayload<OrderResponseDto>> getOrdersByCustomer(@RequestParam(value = "customerCode") String customerCode) {
+    public HttpEntity<ResponsePayload<OrderResponseDto>> getOrdersByCustomer(@RequestParam(value = "customerCode",required = true) String customerCode) {
 
         ResponsePayload<OrderResponseDto> dto = null;
         Customer customer = customerService.getCustomer(customerCode);
@@ -69,9 +71,10 @@ public class OrderController {
     }
 
     @GetMapping(value=API_GET_MAX_SALE_A_DAY)
-    public HttpEntity<?> getMaxSaleDay(@RequestParam LocalDate start, @RequestParam LocalDate end) {
-        ServiceExceptionHandler<LocalDate> dataHandler = () -> service.getMaxSaleDay(start, end);
-        LocalDate data = dataHandler.executeHandler();
-        return new ResponseEntity<>(data.toString(), HttpStatus.OK);
+    public HttpEntity<?> getMaxSaleDay(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
+                                        @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end) {
+        ServiceExceptionHandler<SaleResponseDto> dataHandler = () -> service.getMaxSaleDay(start, end);
+        SaleResponseDto dto = dataHandler.executeHandler();
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 }

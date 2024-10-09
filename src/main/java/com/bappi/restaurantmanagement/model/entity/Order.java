@@ -3,7 +3,6 @@ package com.bappi.restaurantmanagement.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 import static com.bappi.restaurantmanagement.config.OrderDBConstant.*;
@@ -28,6 +27,9 @@ public class Order{
 
     @Column(name = ORDER_DATE)
     private LocalDate orderDate;
+
+    @Column(name = SALE_DATE)
+    private LocalDate saleDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = CUSTOMER_ID)
