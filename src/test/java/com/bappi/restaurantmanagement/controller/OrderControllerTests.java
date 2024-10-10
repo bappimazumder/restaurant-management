@@ -9,52 +9,54 @@ import com.bappi.restaurantmanagement.utils.ResponsePayload;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static com.bappi.restaurantmanagement.config.ApiPath.*;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@WebMvcTest(OrderController.class)
 public class OrderControllerTests {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private OrderService orderService;
+
+    @MockBean
+    private CustomerService customerService;
 
     @InjectMocks
     private OrderController orderController;
 
-    @Mock
-    private OrderService orderService;
-
-    @Mock
-    private CustomerService customerService;
-
-    private MockMvc mockMvc;
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(orderController).build();
     }
 
     @Test
-    void testGetTodayOrders() throws Exception {
-        OrderResponseDto orderResponseDto = new OrderResponseDto();
-        ResponsePayload<OrderResponseDto> responsePayload = new ResponsePayload<>(1,1,List.of(new OrderResponseDto()));
+    public void testGetTodayOrders() throws Exception {
+        ResponsePayload<OrderResponseDto> expectedResponse = new ResponsePayload<>(1,1,List.of(new OrderResponseDto()));
 
-        when(orderService.getTodayOrders()).thenReturn(responsePayload);
+        when(orderService.getTodayOrders()).thenReturn(expectedResponse);
 
         mockMvc.perform(get(API_BASE_PATH+API_ORDER+API_GET_ALL_ORDER_TODAY))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$.data").isArray());
+                .andExpect(jsonPath("$.dataList").isArray()) // Check if data is an array
+                .andExpect(jsonPath("$.dataList", hasSize(1)));
 
-        verify(orderService).getTodayOrders();
+        verify(orderService, times(1)).getTodayOrders();
     }
 
     @Test
@@ -95,7 +97,7 @@ public class OrderControllerTests {
     void testGetOrdersByCustomer_InvalidCustomer() throws Exception {
         String customerCode = "INVALID_CODE";
         LinkedMultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
-        requestParams.add("customerCode", "C001");
+        requestParams.add("customerCode", customerCode);
 
         when(customerService.getCustomer(customerCode)).thenReturn(null);
 
