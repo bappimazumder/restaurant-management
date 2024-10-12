@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "94d4fcb4-ef8d-4fee-b0c7-542b334d13cc",
+		"name": "restaurant-managment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "9436090",
+		"_collection_link": "https://lunar-eclipse-761053.postman.co/workspace/Team-Workspace~4c33cdca-8dd6-4d97-8e73-f93f4cc8a9a3/collection/9436090-94d4fcb4-ef8d-4fee-b0c7-542b334d13cc?action=share&source=collection_link&creator=9436090"
+	},
+	"item": [
+		{
+			"name": "getAllCustomer",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8085/api/v1/restaurant/customer/getAllCustomer"
+			},
+			"response": []
+		},
+		{
+			"name": "todayOrder",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8085/api/v1/restaurant/order/todayOrder"
+			},
+			"response": []
+		},
+		{
+			"name": "todaySale",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8085/api/v1/restaurant/order/todaySale"
+			},
+			"response": []
+		},
+		{
+			"name": "OrdersByCustomer",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8085/api/v1/restaurant/order/customersOrder?customerCode=C001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"api",
+						"v1",
+						"restaurant",
+						"order",
+						"customersOrder"
+					],
+					"query": [
+						{
+							"key": "customerCode",
+							"value": "C001"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "maxSaleInADay",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8085/api/v1/restaurant/order/maxSaleInADay?start=2024-10-01&end=2024-10-09",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8085",
+					"path": [
+						"api",
+						"v1",
+						"restaurant",
+						"order",
+						"maxSaleInADay"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "2024-10-01"
+						},
+						{
+							"key": "end",
+							"value": "2024-10-09"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
