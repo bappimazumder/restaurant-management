@@ -5,9 +5,9 @@ This repo will contain restaurant management APIs.
 
 **Prerequisite: **
 *  openjdk 17
-*  Postgresql
+*  Postgresql 14
 *  git client
-*  Docker Desktop 
+*  Docker 
 *  ElasticSearch
 *  Logstash
 *  Kibana
@@ -81,9 +81,9 @@ Dockerized an application
    2) Step 2 : Build the Docker Image
    Open your terminal, navigate to your project directory, and run:
 
-      D:\Incognito\restaurant-management> docker build -t restaurant-management-docker-img .
+       D:\Incognito\restaurant-management> docker build -t restaurant-management-docker-img .
       
-      D:\Incognito\restaurant-management> docker image ls
+       D:\Incognito\restaurant-management> docker image ls
 
    4) Step 3: Run the Docker Container
       After the image is built, you can run your application in a container:
@@ -136,7 +136,8 @@ Here’s a simplified guide to help you get started:
       The kibana.yml file is usually located in the config directory of your Kibana installation. 
       Common paths include: \kibana-8.15.2\config\
    Use a text editor of your choice to open kibana.yml and remove comment from below line.
-     elasticsearch.hosts: "http://localhost:9200"
+
+       elasticsearch.hosts: "http://localhost:9200"
       
 
 5. Run ELK:
@@ -151,7 +152,9 @@ Here’s a simplified guide to help you get started:
 7. Get log indices from Elastic search :
    
    Access on http://localhost:9200/_cat/indices
-   ![](C:\Users\User\Desktop\elastic_indices_png.png)
+
+   ![Elastic search Log](asset\images\elastic_indices.png)
+
    To access logs in Elasticsearch using a specific index
        http://localhost:9200/logstash-2024.10.13/_search
    
@@ -164,5 +167,5 @@ Here’s a simplified guide to help you get started:
    Now click on discover , it will show all log related to this index pattern.
     It will show logs look like this 
 
-![](C:\Users\User\Desktop\kibana_log_view.png)
+![Kibana Log](asset\images\kibana_log_view.png)
    
