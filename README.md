@@ -95,8 +95,8 @@ Dockerized an application
    6) Step 4: Access Your Application
       You can now access your application in a web browser/postman at http://localhost:8080.
 
-Log Visualization
-==================
+Centralized Log Visualization
+=============================
 Using the ELK stack (Elasticsearch, Logstash, and Kibana) for log visualization involves several steps. 
 Here’s a simplified guide to help you get started:
 1. Set Up the ELK Stack
