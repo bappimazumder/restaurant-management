@@ -5,7 +5,7 @@ import com.bappi.restaurantmanagement.model.dto.OrderResponseDto;
 import com.bappi.restaurantmanagement.model.dto.SaleResponseDto;
 import com.bappi.restaurantmanagement.model.entity.Customer;
 import com.bappi.restaurantmanagement.service.CustomerService;
-import com.bappi.restaurantmanagement.service.OrderService;
+import com.bappi.restaurantmanagement.service.Impl.OrderServiceImpl;
 import com.bappi.restaurantmanagement.utils.ResponsePayload;
 import com.bappi.restaurantmanagement.utils.ServiceExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -28,11 +28,11 @@ import static com.bappi.restaurantmanagement.config.ApiPath.*;
 @RequestMapping(API_ORDER)
 public class OrderController {
 
-    private final OrderService service;
+    private final OrderServiceImpl service;
     private final CustomerService customerService;
 
     @Autowired
-    public OrderController(OrderService orderService, CustomerService customerService) {
+    public OrderController(OrderServiceImpl orderService, CustomerService customerService) {
         this.service = orderService;
         this.customerService = customerService;
     }

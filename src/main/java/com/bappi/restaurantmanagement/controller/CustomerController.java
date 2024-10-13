@@ -1,7 +1,7 @@
 package com.bappi.restaurantmanagement.controller;
 
 import com.bappi.restaurantmanagement.model.dto.CustomerResponseDto;
-import com.bappi.restaurantmanagement.service.CustomerService;
+import com.bappi.restaurantmanagement.service.Impl.CustomerServiceImpl;
 import com.bappi.restaurantmanagement.utils.ResponsePayload;
 import com.bappi.restaurantmanagement.utils.ServiceExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +19,10 @@ import static com.bappi.restaurantmanagement.config.ApiPath.API_GET_ALL_CUSTOMER
 @RestController
 @RequestMapping(API_CUSTOMER)
 public class CustomerController {
-    private final CustomerService service;
+    private final CustomerServiceImpl service;
 
     @Autowired
-    public CustomerController(CustomerService customerServiceService) {
+    public CustomerController(CustomerServiceImpl customerServiceService) {
         this.service = customerServiceService;
     }
 

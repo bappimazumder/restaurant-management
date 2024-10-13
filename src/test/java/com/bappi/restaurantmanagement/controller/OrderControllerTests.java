@@ -4,7 +4,7 @@ import com.bappi.restaurantmanagement.model.dto.OrderResponseDto;
 import com.bappi.restaurantmanagement.model.dto.SaleResponseDto;
 import com.bappi.restaurantmanagement.model.entity.Customer;
 import com.bappi.restaurantmanagement.service.CustomerService;
-import com.bappi.restaurantmanagement.service.OrderService;
+import com.bappi.restaurantmanagement.service.Impl.OrderServiceImpl;
 import com.bappi.restaurantmanagement.utils.ResponsePayload;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ public class OrderControllerTests {
     private MockMvc mockMvc;
 
     @MockBean
-    private OrderService orderService;
+    private OrderServiceImpl service;
 
     @MockBean
     private CustomerService customerService;
@@ -49,27 +49,27 @@ public class OrderControllerTests {
     public void testGetTodayOrders() throws Exception {
         ResponsePayload<OrderResponseDto> expectedResponse = new ResponsePayload<>(1,1,List.of(new OrderResponseDto()));
 
-        when(orderService.getTodayOrders()).thenReturn(expectedResponse);
+        when(service.getTodayOrders()).thenReturn(expectedResponse);
 
         mockMvc.perform(get(API_BASE_PATH+API_ORDER+API_GET_ALL_ORDER_TODAY))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.dataList").isArray()) // Check if data is an array
                 .andExpect(jsonPath("$.dataList", hasSize(1)));
 
-        verify(orderService, times(1)).getTodayOrders();
+        verify(service, times(1)).getTodayOrders();
     }
 
     @Test
     void testGetTodayTotalSaleAmount() throws Exception {
         SaleResponseDto saleResponseDto = new SaleResponseDto();
 
-        when(orderService.getTodayTotalSaleAmount()).thenReturn(saleResponseDto);
+        when(service.getTodayTotalSaleAmount()).thenReturn(saleResponseDto);
 
         mockMvc.perform(get(API_BASE_PATH+API_ORDER+API_GET_ALL_SALE_TODAY))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"));
 
-        verify(orderService).getTodayTotalSaleAmount();
+        verify(service).getTodayTotalSaleAmount();
     }
 
     @Test
@@ -82,7 +82,7 @@ public class OrderControllerTests {
         ResponsePayload<OrderResponseDto> responsePayload = new ResponsePayload<>(1,1,List.of(new OrderResponseDto()));
 
         when(customerService.getCustomer(customerCode)).thenReturn(customer);
-        when(orderService.getOrdersByCustomer(customer.getId())).thenReturn(responsePayload);
+        when(service.getOrdersByCustomer(customer.getId())).thenReturn(responsePayload);
 
         mockMvc.perform(get(API_BASE_PATH+API_ORDER+API_GET_ALL_ORDER_BY_CUSTOMER)
                         .params(requestParams))
@@ -90,7 +90,7 @@ public class OrderControllerTests {
                 .andExpect(content().contentType("application/json"));
 
         verify(customerService).getCustomer(customerCode);
-        verify(orderService).getOrdersByCustomer(customer.getId());
+        verify(service).getOrdersByCustomer(customer.getId());
     }
 
     @Test
@@ -105,7 +105,7 @@ public class OrderControllerTests {
                 .andExpect(status().isNotFound());
 
         verify(customerService).getCustomer(customerCode);
-        verify(orderService, never()).getOrdersByCustomer(anyLong());
+        verify(service, never()).getOrdersByCustomer(anyLong());
     }
 
     @Test
@@ -119,12 +119,12 @@ public class OrderControllerTests {
 
         SaleResponseDto saleResponseDto = new SaleResponseDto();
 
-        when(orderService.getMaxSaleDay(startDate, endDate)).thenReturn(saleResponseDto);
+        when(service.getMaxSaleDay(startDate, endDate)).thenReturn(saleResponseDto);
 
         mockMvc.perform(get(API_BASE_PATH+API_ORDER+API_GET_MAX_SALE_A_DAY).params(requestParams))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"));
 
-        verify(orderService).getMaxSaleDay(startDate, endDate);
+        verify(service).getMaxSaleDay(startDate, endDate);
     }
 }

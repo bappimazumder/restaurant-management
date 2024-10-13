@@ -3,6 +3,7 @@ package com.bappi.restaurantmanagement.service;
 import com.bappi.restaurantmanagement.model.dto.CustomerResponseDto;
 import com.bappi.restaurantmanagement.model.entity.Customer;
 import com.bappi.restaurantmanagement.repository.CustomerRepository;
+import com.bappi.restaurantmanagement.service.Impl.CustomerServiceImpl;
 import com.bappi.restaurantmanagement.utils.ResponsePayload;
 import com.bappi.restaurantmanagement.utils.mapper.CustomerMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +25,7 @@ public class CustomerServiceTests {
     @Mock
     private CustomerMapper objectMapper;
     @InjectMocks
-    private CustomerService customerService;
+    private CustomerServiceImpl service;
     Customer customer1;
     Customer customer2;
 
@@ -56,7 +57,7 @@ public class CustomerServiceTests {
         when(repository.findAll()).thenReturn(mockCustomers);
         when(objectMapper.map(mockCustomers)).thenReturn(mockResponseDtos);
 
-        ResponsePayload<CustomerResponseDto> responseDtos = customerService.getAllCustomers();
+        ResponsePayload<CustomerResponseDto> responseDtos = service.getAllCustomers();
         List<CustomerResponseDto> customerList = responseDtos.getDataList();
 
 
@@ -72,7 +73,7 @@ public class CustomerServiceTests {
 
         when(repository.findByCode(code)).thenReturn(customer1);
 
-        Customer customer = customerService.getCustomer(code);
+        Customer customer = service.getCustomer(code);
 
         assertNotNull(customer);
         assertEquals(code, customer.getCode());
@@ -84,7 +85,7 @@ public class CustomerServiceTests {
     public void testGetCustomerNotFound() {
         String code = "C999";
         when(repository.findByCode(code)).thenReturn(null);
-        Customer customer = customerService.getCustomer(code);
+        Customer customer = service.getCustomer(code);
         assertNull(customer);
         verify(repository).findByCode(code);
     }

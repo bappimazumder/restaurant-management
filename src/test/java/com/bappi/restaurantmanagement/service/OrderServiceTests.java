@@ -5,6 +5,7 @@ import com.bappi.restaurantmanagement.model.dto.SaleResponseDto;
 import com.bappi.restaurantmanagement.model.entity.Customer;
 import com.bappi.restaurantmanagement.model.entity.Order;
 import com.bappi.restaurantmanagement.repository.OrderRepository;
+import com.bappi.restaurantmanagement.service.Impl.OrderServiceImpl;
 import com.bappi.restaurantmanagement.utils.ResponsePayload;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -23,10 +24,10 @@ import static org.mockito.Mockito.when;
 public class OrderServiceTests {
 
     @InjectMocks
-    private OrderService orderService;
+    private OrderServiceImpl service;
 
     @Mock
-    private OrderRepository orderRepository;
+    private OrderRepository repository;
 
     public OrderServiceTests() {
         MockitoAnnotations.openMocks(this);
@@ -41,9 +42,9 @@ public class OrderServiceTests {
         order.setAmount(100.0);
         order.setOrderDate(today);
 
-        when(orderRepository.findByOrderDate(today)).thenReturn(Collections.singletonList(order));
+        when(repository.findByOrderDate(today)).thenReturn(Collections.singletonList(order));
 
-        ResponsePayload<OrderResponseDto> orders = orderService.getTodayOrders();
+        ResponsePayload<OrderResponseDto> orders = service.getTodayOrders();
         List<OrderResponseDto> orderList = orders.getDataList();
         assertEquals(1, orderList.size());
         assertEquals(100.0, orderList.get(0).getAmount());
@@ -54,8 +55,8 @@ public class OrderServiceTests {
     @Test
     public void testGetTodayOrders_NoOrders() {
         LocalDate today = LocalDate.now();
-        when(orderRepository.findByOrderDate(today)).thenReturn(Collections.emptyList());
-        ResponsePayload<OrderResponseDto> orders = orderService.getTodayOrders();
+        when(repository.findByOrderDate(today)).thenReturn(Collections.emptyList());
+        ResponsePayload<OrderResponseDto> orders = service.getTodayOrders();
         assertEquals(0, orders.getDataList().size());
     }
 
@@ -66,14 +67,14 @@ public class OrderServiceTests {
         SaleResponseDto expectedResponse = new SaleResponseDto(500.0,today.toString());
         expectedResponse.setAmount(500.0);
         Double expectedAmount = 500.0;
-        when(orderRepository.sumAmountBySaleDate(today)).thenReturn(expectedAmount);
+        when(repository.sumAmountBySaleDate(today)).thenReturn(expectedAmount);
 
-        SaleResponseDto actualResponse = orderService.getTodayTotalSaleAmount();
+        SaleResponseDto actualResponse = service.getTodayTotalSaleAmount();
 
         assertNotNull(actualResponse);
         assertEquals(expectedResponse.getAmount(), actualResponse.getAmount(), "Expected amount should match");
         assertEquals(expectedResponse.getSaleDate(), actualResponse.getSaleDate(), "Expected date should match");
-        verify(orderRepository).sumAmountBySaleDate(today);
+        verify(repository).sumAmountBySaleDate(today);
     }
 
     // Test Case 2 for getTotalSaleAmount() method
@@ -83,13 +84,13 @@ public class OrderServiceTests {
 
         SaleResponseDto expectedResponse = new SaleResponseDto();
 
-        when(orderRepository.sumAmountBySaleDate(today)).thenReturn(null);
+        when(repository.sumAmountBySaleDate(today)).thenReturn(null);
 
-        SaleResponseDto actualResponse = orderService.getTodayTotalSaleAmount();
+        SaleResponseDto actualResponse = service.getTodayTotalSaleAmount();
 
         assertNotNull(actualResponse);
         assertEquals(expectedResponse.getAmount(), actualResponse.getAmount(), "Expected amount should be null");
-        verify(orderRepository).sumAmountBySaleDate(today);
+        verify(repository).sumAmountBySaleDate(today);
     }
 
     // Test Case 1 for getOrdersByCustomer() method
@@ -114,9 +115,9 @@ public class OrderServiceTests {
 
         List<Order> expectedOrders = Arrays.asList(order1, order2);
 
-        when(orderRepository.findByCustomerId(customerId)).thenReturn(expectedOrders);
+        when(repository.findByCustomerId(customerId)).thenReturn(expectedOrders);
 
-        ResponsePayload<OrderResponseDto> orders = orderService.getOrdersByCustomer(customerId);
+        ResponsePayload<OrderResponseDto> orders = service.getOrdersByCustomer(customerId);
         List<OrderResponseDto> orderList = orders.getDataList();
         assertEquals(2, orderList.size());
         assertEquals(100.0, orderList.get(0).getAmount());
@@ -127,8 +128,8 @@ public class OrderServiceTests {
     @Test
     public void testGetOrdersByCustomer_NoOrders() {
         Long customerId = 2L;
-        when(orderRepository.findByCustomerId(customerId)).thenReturn(Collections.emptyList());
-        ResponsePayload<OrderResponseDto> orders = orderService.getOrdersByCustomer(customerId);
+        when(repository.findByCustomerId(customerId)).thenReturn(Collections.emptyList());
+        ResponsePayload<OrderResponseDto> orders = service.getOrdersByCustomer(customerId);
         assertEquals(0, orders.getDataList().size());
     }
 
@@ -144,14 +145,14 @@ public class OrderServiceTests {
                 new Object[]{LocalDate.of(2024, 10, 7), 200.0}
         );
 
-        when(orderRepository.findTotalSalesByDateRange(startDate, endDate)).thenReturn(salesData);
+        when(repository.findTotalSalesByDateRange(startDate, endDate)).thenReturn(salesData);
 
-        SaleResponseDto actualResponse = orderService.getMaxSaleDay(startDate, endDate);
+        SaleResponseDto actualResponse = service.getMaxSaleDay(startDate, endDate);
 
         assertNotNull(actualResponse);
         assertEquals(500.0, actualResponse.getAmount(), "Expected max sale amount should be 200.0");
         assertEquals(LocalDate.of(2024, 10, 6).toString(), actualResponse.getSaleDate(), "Expected sale date should match");
-        verify(orderRepository).findTotalSalesByDateRange(startDate, endDate);
+        verify(repository).findTotalSalesByDateRange(startDate, endDate);
     }
 
     // Test Case 2 for getMaxSaleDay() method
@@ -160,14 +161,14 @@ public class OrderServiceTests {
         LocalDate startDate = LocalDate.of(2024, 10, 1);
         LocalDate endDate = LocalDate.of(2024, 10, 9);
         List<Object[]> salesData = Arrays.asList();
-        when(orderRepository.findTotalSalesByDateRange(startDate, endDate)).thenReturn(salesData);
+        when(repository.findTotalSalesByDateRange(startDate, endDate)).thenReturn(salesData);
 
-        SaleResponseDto actualResponse = orderService.getMaxSaleDay(startDate, endDate);
+        SaleResponseDto actualResponse = service.getMaxSaleDay(startDate, endDate);
 
         assertNotNull(actualResponse);
         assertEquals(0.0, actualResponse.getAmount(), "Expected max sale amount should be 0.0");
         assertNull(actualResponse.getSaleDate(), "Expected sale date should be null when there are no sales");
-        verify(orderRepository).findTotalSalesByDateRange(startDate, endDate);
+        verify(repository).findTotalSalesByDateRange(startDate, endDate);
     }
 
 }

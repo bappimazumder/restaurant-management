@@ -17,7 +17,43 @@
 				"header": [],
 				"url": "http://localhost:8085/api/v1/restaurant/customer/getAllCustomer"
 			},
-			"response": []
+			"response": [
+				{
+					"name": "getAllCustomer",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8085/api/v1/restaurant/customer/getAllCustomer"
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 13 Oct 2024 13:01:04 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"totalPages\": null,\n    \"currentPage\": null,\n    \"dataList\": [\n        {\n            \"code\": \"C-001\",\n            \"fullName\": \"Bappi Mazumder\"\n        },\n        {\n            \"code\": \"C-002\",\n            \"fullName\": \"David Balame\"\n        },\n        {\n            \"code\": \"C-003\",\n            \"fullName\": \"Luis Henry\"\n        }\n    ]\n}"
+				}
+			]
 		},
 		{
 			"name": "todayOrder",
@@ -29,7 +65,43 @@
 				"header": [],
 				"url": "http://localhost:8085/api/v1/restaurant/order/todayOrder"
 			},
-			"response": []
+			"response": [
+				{
+					"name": "todayOrder",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8085/api/v1/restaurant/order/todayOrder"
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 13 Oct 2024 13:00:42 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"totalPages\": null,\n    \"currentPage\": null,\n    \"dataList\": [\n        {\n            \"code\": \"ORD-004\",\n            \"amount\": 700,\n            \"orderDate\": \"2024-10-13\",\n            \"saleDate\": \"2024-10-13\",\n            \"customerCode\": \"C-003\",\n            \"customerName\": \"Luis Henry\"\n        }\n    ]\n}"
+				}
+			]
 		},
 		{
 			"name": "todaySale",
@@ -38,7 +110,43 @@
 				"header": [],
 				"url": "http://localhost:8085/api/v1/restaurant/order/todaySale"
 			},
-			"response": []
+			"response": [
+				{
+					"name": "todaySale",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8085/api/v1/restaurant/order/todaySale"
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 13 Oct 2024 12:59:17 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"amount\": 1500,\n    \"saleDate\": \"2024-10-13\"\n}"
+				}
+			]
 		},
 		{
 			"name": "OrdersByCustomer",
@@ -49,7 +157,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8085/api/v1/restaurant/order/customersOrder?customerCode=C001",
+					"raw": "http://localhost:8085/api/v1/restaurant/order/customersOrder?customerCode=C-001",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -65,12 +173,68 @@
 					"query": [
 						{
 							"key": "customerCode",
-							"value": "C001"
+							"value": "C-001"
 						}
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "OrdersByCustomer",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/api/v1/restaurant/order/customersOrder?customerCode=C-001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"api",
+								"v1",
+								"restaurant",
+								"order",
+								"customersOrder"
+							],
+							"query": [
+								{
+									"key": "customerCode",
+									"value": "C-001"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 13 Oct 2024 12:56:30 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"totalPages\": null,\n    \"currentPage\": null,\n    \"dataList\": [\n        {\n            \"code\": \"ORD-001\",\n            \"amount\": 500,\n            \"orderDate\": \"2024-10-03\",\n            \"saleDate\": \"2024-10-03\",\n            \"customerCode\": \"C-001\",\n            \"customerName\": \"Bappi Mazumder\"\n        }\n    ]\n}"
+				}
+			]
 		},
 		{
 			"name": "maxSaleInADay",
@@ -103,7 +267,67 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "maxSaleInADay",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/api/v1/restaurant/order/maxSaleInADay?start=2024-10-01&end=2024-10-09",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"api",
+								"v1",
+								"restaurant",
+								"order",
+								"maxSaleInADay"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "2024-10-01"
+								},
+								{
+									"key": "end",
+									"value": "2024-10-09"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 13 Oct 2024 12:56:55 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"amount\": 1500,\n    \"saleDate\": \"2024-10-09\"\n}"
+				}
+			]
 		}
 	]
 }
