@@ -153,7 +153,7 @@ Here’s a simplified guide to help you get started:
    
    Access on http://localhost:9200/_cat/indices
 
-   ![Elastic search Log](asset\images\elastic_indices.png)
+   ![Elastic search Log](asset/images/elastic_indices.png)
 
    To access logs in Elasticsearch using a specific index
        http://localhost:9200/logstash-2024.10.13/_search
@@ -167,5 +167,5 @@ Here’s a simplified guide to help you get started:
    Now click on discover , it will show all log related to this index pattern.
     It will show logs look like this 
 
-![Kibana Log](asset\images\kibana_log_view.png)
+![Kibana Log](asset/images/kibana_log_view.png)
    
