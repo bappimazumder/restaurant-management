@@ -99,7 +99,8 @@ Centralized Log Visualization
 =============================
 Using the ELK stack (Elasticsearch, Logstash, and Kibana) for log visualization involves several steps. 
 Here’s a simplified guide to help you get started:
-1. Set Up the ELK Stack
+1. Set Up the ELK Stack:
+   
    i) Elasticsearch: This is where your logs will be stored. Install it and ensure it’s running.
       Download ElasticSearch: https://www.elastic.co/downloads/elasticsearch
 
@@ -110,7 +111,8 @@ Here’s a simplified guide to help you get started:
    iii) Kibana: This is the visualization tool. Install it and connect it to your Elasticsearch instance.
       Download Kibana: https://www.elastic.co/downloads/kibana
 
-2. Configure Logstash
+3. Configure Logstash:
+   
    Create a configuration file (e.g., logstash.conf) and put it on the \logstash-8.15.2\bin\ folder
 
            input {
@@ -132,7 +134,8 @@ Here’s a simplified guide to help you get started:
 
    Note: This path value is also defined in the project directory \restaurant-management\src\main\resources\logback-spring.xml
  
-4. Configure Kibana
+5. Configure Kibana:
+   
       The kibana.yml file is usually located in the config directory of your Kibana installation. 
       Common paths include: \kibana-8.15.2\config\
    Use a text editor of your choice to open kibana.yml and remove comment from below line.
@@ -140,7 +143,7 @@ Here’s a simplified guide to help you get started:
        elasticsearch.hosts: "http://localhost:9200"
       
 
-5. Run ELK:
+7. Run ELK:
    
        i) Run Elasticsearch: => \elasticsearch-8.15.2\bin\elasticsearch.bat
           You can now access your elasticsearch in a web browser http://localhost:9200
@@ -149,7 +152,7 @@ Here’s a simplified guide to help you get started:
        iii) Run Logstash using this command : \logstash-8.15.2\bin> logstash -f logstash.conf 
           You can now access your Logstash in a web browser http://localhost:9600
 
-7. Get log indices from Elastic search :
+8. Get log indices from Elastic search :
    
    Access on http://localhost:9200/_cat/indices
 
@@ -159,7 +162,8 @@ Here’s a simplified guide to help you get started:
        http://localhost:9200/logstash-2024.10.13/_search
    
    
-8. Kibana Dashboard Configuration:
+9. Kibana Dashboard Configuration:
+    
    Go to the Kibana Dashboard , Then go to the Management Option.
    Then click on Index pattern > Create Index pattern > Define your index pattern here using 
    this log index that get from step 5.
