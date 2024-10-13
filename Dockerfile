@@ -31,3 +31,4 @@ EXPOSE 8080
 
 # Run the application using the Spring Boot loader
 ENTRYPOINT ["java", "-jar", "restaurant-management.jar"]
+
